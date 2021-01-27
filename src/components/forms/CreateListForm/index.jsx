@@ -1,21 +1,11 @@
 import React from 'react';
 import getToken from 'lib/tokens';
 import { useHistory } from 'react-router-dom';
-import { db } from 'lib/firebase'
+import { createCollectionByToken } from 'helpers/firestore'
 
 function CreateListForm({ rootCollection }) {
 
     const history = useHistory();
-
-    const createCollectionByToken = (token) => {
-        db.collection(rootCollection).doc(token).set({ token })
-            .then(function () {
-                console.log("Create collection successfully!");
-            })
-            .catch(function (error) {
-                console.error("Error create collection: ", error);
-            });
-    }
 
     const createNewList = (e) => {
         e.preventDefault();
@@ -24,7 +14,7 @@ function CreateListForm({ rootCollection }) {
         // Localstorage
         localStorage.setItem("tcl18-token", tokenRandom);
         // Firestore
-        createCollectionByToken(tokenRandom)
+        createCollectionByToken(rootCollection, tokenRandom)
         // Redirect
         history.push("/list-view");
     }
