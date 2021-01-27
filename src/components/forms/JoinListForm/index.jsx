@@ -10,7 +10,6 @@ function JoinListForm({ rootCollection }) {
     const history = useHistory();
 
     const cleanForm = () => {
-        setSharedToken("");
         setShowErrorMessages(false);
     }
 
