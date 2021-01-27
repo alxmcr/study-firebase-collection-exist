@@ -5,7 +5,7 @@ function CreateListForm() {
 
     const createNewList = (e) => {
         e.preventDefault();
-        console.log("Create new list...");
+        console.log("Joining to list...");
     }
 
     return (
@@ -14,13 +14,14 @@ function CreateListForm() {
             <br />
             <form>
                 <label htmlFor="shareToken">Share token</label>
+                <br />
                 <input id="shareToken" type="text" placeholder="Enter a token" />
-                <br/>
-                <input  onClick={createNewList}
+                <br />
+                <input onClick={createNewList}
                     type="submit"
                     value="Join an existing list" />
             </form>
-            <br/>
+            <br />
         </section>
     )
 }

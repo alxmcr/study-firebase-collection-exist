@@ -1,5 +1,5 @@
-import CreateListForm from 'forms/CreateListForm';
-import JoinListForm from 'forms/JoinListForm';
+import CreateListForm from 'components/forms/CreateListForm';
+import JoinListForm from 'components/forms/JoinListForm';
 import React from 'react';
 
 function Home() {
