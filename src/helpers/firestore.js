@@ -37,4 +37,27 @@ const existCollectionById = async (rootCollection, token) => {
     }
 };
 
-export { createCollectionByToken, createProductInCollection, existCollectionById }
+const getProductsByToken = async (rootCollection, token) => {
+    const productsRef = db.collection(rootCollection).doc(token).collection("products");
+
+    const productsByTokenList = [];
+
+    try {
+        const querySnapshot = await productsRef.get();
+        const subCollectionProducts = querySnapshot.docs;
+
+        subCollectionProducts.forEach(product => {
+            const infoProduct = {
+                id: product.id,
+                ...product.data()
+            }
+            productsByTokenList.push(infoProduct)
+        });
+
+    } catch (e) {
+        console.error(e);
+    }
+    return productsByTokenList;
+}
+
+export { createCollectionByToken, createProductInCollection, existCollectionById, getProductsByToken }
