@@ -9,10 +9,6 @@ function JoinListForm({ rootCollection }) {
     const [showErrorMessages, setShowErrorMessages] = useState(false);
     const history = useHistory();
 
-    const cleanForm = () => {
-        setShowErrorMessages(false);
-    }
-
     const joinToListByToken = async (e) => {
         e.preventDefault();
 
@@ -27,7 +23,6 @@ function JoinListForm({ rootCollection }) {
             // Redirect
             history.push("/list-view");
         } else {
-            setSharedToken("");
             setShowErrorMessages(true);
         }
     }
@@ -43,7 +38,7 @@ function JoinListForm({ rootCollection }) {
                     type="text"
                     placeholder="Enter a token"
                     onChange={(e) => setSharedToken(e.target.value)}
-                    onKeyPress={() => cleanForm()} />
+                    onKeyPress={() => setShowErrorMessages(false)} />
                 <br />
                 <input onClick={joinToListByToken}
                     type="submit"
