@@ -1,12 +1,18 @@
 import { db } from 'lib/firebase'
 
+const createCollectionByToken = (rootCollection, token) => {
+    db.collection(rootCollection).doc(token).set({})
+        .then(function () {
+            console.log("Create collection successfully!");
+        })
+        .catch(function (error) {
+            console.error("Error create collection: ", error);
+        });
+}
+
 const createProductInCollection = (rootCollection, token, product) => {
     // // Add a new document in collection "cities"
-    db.collection(rootCollection).doc(token).collection("products").doc().set({
-        name: "Los Angeles",
-        state: "CA",
-        country: "USA"
-    })
+    db.collection(rootCollection).doc(token).collection("products").doc().set(product)
         .then(function () {
             console.log("Document successfully written!");
         })
@@ -16,14 +22,19 @@ const createProductInCollection = (rootCollection, token, product) => {
 };
 
 const existCollectionById = async (rootCollection, token) => {
-    const collectionRefByToken = db.collection(rootCollection || ' ')
-        .where("token", "==", token || ' ');
+    const collectionRefByToken = db.collection(rootCollection || ' ');
     try {
         const querySnapshot = await collectionRefByToken.get();
-        return !querySnapshot.empty;
+
+        if (!querySnapshot.empty) {
+            const { docs } = querySnapshot;
+            const docsByToken = docs.filter(doc => doc.id === token);
+            return docsByToken.length > 0;
+        }
+        return false;
     } catch (e) {
         console.error(e);
     }
 };
 
-export { existCollectionById, createProductInCollection }
+export { createCollectionByToken, createProductInCollection, existCollectionById }
