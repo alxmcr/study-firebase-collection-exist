@@ -1,7 +1,4 @@
-import React, { useState, useEffect } from 'react';
-// import ProductList from 'components/sections/ProductList';
-// import ProductListEmpty from 'components/sections/ProductListEmpty';
-// import { useCollection } from 'react-firebase-hooks/firestore';
+import React, { useEffect } from 'react';
 import { db } from 'lib/firebase'
 
 const getProductsByToken = async (rootCollection, token) => {
@@ -26,27 +23,7 @@ const getProductsByToken = async (rootCollection, token) => {
     } catch (e) {
         console.error(e);
     }
-
-    // console.log("productsByTokenList", productsByTokenList);
-
     return productsByTokenList;
-
-
-    // productsRef.get().then(function (doc) {
-    //     const products = doc.docs;
-    //     console.log("products", products);
-
-    //     products.forEach(product => console.log(product.data()))
-
-    //     if (doc.exists) {
-    //         console.log("Document data:", doc.data());
-    //     } else {
-    //         // doc.data() will be undefined in this case
-    //         console.log("No such document!");
-    //     }
-    // }).catch(function (error) {
-    //     console.log("Error getting document:", error);
-    // });
 }
 
 function ListView() {
