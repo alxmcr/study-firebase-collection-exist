@@ -5,7 +5,7 @@ import React, { useState, useEffect } from 'react';
 import { db } from 'lib/firebase'
 
 const getProductsByToken = async (rootCollection, token) => {
-    const productsRef = db.collection("tokens_v4").doc(token).collection("products");
+    const productsRef = db.collection(rootCollection).doc(token).collection("products");
 
     const productsByTokenList = [];
 
