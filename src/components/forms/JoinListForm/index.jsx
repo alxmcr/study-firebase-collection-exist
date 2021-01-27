@@ -1,13 +1,36 @@
 import React, { useState } from 'react';
+import { existCollectionById } from 'helpers/firestore'
+import { useHistory } from 'react-router-dom'
 
 function JoinListForm({ rootCollection }) {
 
-    const [sharedToken, setSharedToken] = useState(" ");
+    const [sharedToken, setSharedToken] = useState("");
+    const [checking, setChecking] = useState(false);
+    const [showErrorMessages, setShowErrorMessages] = useState(false);
+    const history = useHistory();
 
-    const joinToListByToken = (e) => {
+    const cleanForm = () => {
+        setSharedToken("");
+        setShowErrorMessages(false);
+    }
+
+    const joinToListByToken = async (e) => {
         e.preventDefault();
-        console.log("rootCollection", rootCollection);
-        console.log("Joining to list by token", sharedToken);
+
+        setChecking(true);
+        const existCollection = await existCollectionById(rootCollection, sharedToken);
+        setChecking(false);
+
+        if (existCollection) {
+            setShowErrorMessages(false);
+            // Localstorage
+            localStorage.setItem("tcl18-token", sharedToken);
+            // Redirect
+            history.push("/list-view");
+        } else {
+            setSharedToken("");
+            setShowErrorMessages(true);
+        }
     }
 
     return (
@@ -20,12 +43,15 @@ function JoinListForm({ rootCollection }) {
                 <input id="shareToken"
                     type="text"
                     placeholder="Enter a token"
-                    onChange={(e) => setSharedToken(e.target.value)} />
+                    onChange={(e) => setSharedToken(e.target.value)}
+                    onKeyPress={() => cleanForm()} />
                 <br />
                 <input onClick={joinToListByToken}
                     type="submit"
                     value="Join an existing list" />
             </form>
+            {checking && <p>Checking token...</p>}
+            {(!checking && showErrorMessages) && <p>Invalid token. Try again!</p>}
         </section>
     )
 }
