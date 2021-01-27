@@ -1,11 +1,13 @@
-import React from 'react';
-import './JoinListForm.css'
+import React, { useState } from 'react';
 
-function CreateListForm() {
+function JoinListForm({ rootCollection }) {
 
-    const createNewList = (e) => {
+    const [sharedToken, setSharedToken] = useState(" ");
+
+    const joinToListByToken = (e) => {
         e.preventDefault();
-        console.log("Joining to list...");
+        console.log("rootCollection", rootCollection);
+        console.log("Joining to list by token", sharedToken);
     }
 
     return (
@@ -15,15 +17,17 @@ function CreateListForm() {
             <form>
                 <label htmlFor="shareToken">Share token</label>
                 <br />
-                <input id="shareToken" type="text" placeholder="Enter a token" />
+                <input id="shareToken"
+                    type="text"
+                    placeholder="Enter a token"
+                    onChange={(e) => setSharedToken(e.target.value)} />
                 <br />
-                <input onClick={createNewList}
+                <input onClick={joinToListByToken}
                     type="submit"
                     value="Join an existing list" />
             </form>
-            <br />
         </section>
     )
 }
 
-export default CreateListForm;
+export default JoinListForm;

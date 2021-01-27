@@ -11,7 +11,7 @@ function Home() {
             <br /><br />
             <span>--or--</span>
             <br />
-            <JoinListForm />
+            <JoinListForm rootCollection="tokens_v3" />
         </>
     )
 }
