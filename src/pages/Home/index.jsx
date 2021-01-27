@@ -7,11 +7,11 @@ function Home() {
         <>
             <h1>Welcome to your<br /> Smart Shopping List</h1>
             <br />
-            <CreateListForm rootCollection="tokens_v3" />
+            <CreateListForm rootCollection="tokens_v4" />
             <br /><br />
             <span>--or--</span>
             <br />
-            <JoinListForm rootCollection="tokens_v3" />
+            <JoinListForm rootCollection="tokens_v4" />
         </>
     )
 }

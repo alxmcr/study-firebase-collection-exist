@@ -4,7 +4,7 @@ import React from 'react';
 function AddItem() {
     return (
         <>
-            <CreateProductForm rootCollection="tokens_v3" />
+            <CreateProductForm rootCollection="tokens_v4" />
         </>
     )
 }
