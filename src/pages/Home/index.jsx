@@ -7,7 +7,7 @@ function Home() {
         <>
             <h1>Welcome to your<br /> Smart Shopping List</h1>
             <br />
-            <CreateListForm />
+            <CreateListForm rootCollection="tokens_v3" />
             <br /><br />
             <span>--or--</span>
             <br />
