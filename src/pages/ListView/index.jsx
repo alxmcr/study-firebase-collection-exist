@@ -1,42 +1,22 @@
-import React, { useEffect } from 'react';
-import { db } from 'lib/firebase'
-
-const getProductsByToken = async (rootCollection, token) => {
-    const productsRef = db.collection(rootCollection).doc(token).collection("products");
-
-    const productsByTokenList = [];
-
-    try {
-        const querySnapshot = await productsRef.get();
-        const subCollectionProducts = querySnapshot.docs;
-        console.log("querySnapshot", querySnapshot);
-        console.log("subCollectionProducts", subCollectionProducts);
-
-        subCollectionProducts.forEach(product => {
-            const infoProduct = {
-                id: product.id,
-                ...product.data()
-            }
-            productsByTokenList.push(infoProduct)
-        });
-
-    } catch (e) {
-        console.error(e);
-    }
-    return productsByTokenList;
-}
+import React, { useState, useEffect } from 'react';
+import { getProductsByToken } from 'helpers/firestore'
+import ProductList from 'components/sections/ProductList';
+import ProductListEmpty from 'components/sections/ProductListEmpty';
 
 function ListView() {
-    // const [isEmpty, setIsEmpty] = useState(false);
-    const token = localStorage.getItem("tcl18-token");
-
-
-    const initialize = async () => {
-        const productsFirestore = await getProductsByToken("tokens_v4", token);
-        console.log("productsFirestore", productsFirestore);
-    }
+    const [products, setProducts] = useState([]);
+    const [isEmpty, setIsEmpty] = useState(true);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
+        async function initialize() {
+            const token = localStorage.getItem("tcl18-token");
+            setLoading(true);
+            const productsFirestore = await getProductsByToken("tokens_v4", token);
+            setLoading(false);
+            setProducts(productsFirestore);
+            setIsEmpty(productsFirestore.length === 0)
+        }
         initialize();
     }, [])
 
@@ -45,11 +25,9 @@ function ListView() {
             <h1>Smart Shopping List</h1>
             <br />
             <br />
-            {/* <ProductListEmpty />
-            <ProductList products={products} /> */}
-            {/* 
-            {isEmpty && <ProductListEmpty />}
-            {(!isEmpty && !loading) && <ProductList products={products} />} */}
+            {loading && <p>Loading products...</p>}
+            {(isEmpty && !loading) && <ProductListEmpty />}
+            {(!isEmpty && !loading) && <ProductList products={products} />}
         </>
     )
 }
