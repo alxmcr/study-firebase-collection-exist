@@ -1,8 +1,10 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom'
 
 function ProductListEmpty() {
+    const history = useHistory();
     const goToAddItemView = () => {
-        console.log("Redirect to... /add-item")
+        history.push("/add-item");
     }
 
     return (
